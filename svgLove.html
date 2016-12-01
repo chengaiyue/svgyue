@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+
+<style>
+
+body {
+	background: #ccc;
+}
+.wrap {
+	width: 600px;
+	height: 400px;
+	margin: 0 auto;
+	background: #fff;
+}
+</style>
+<script>
+window.onload = function () {
+//	var wrap = document.querySelector('.wrap');
+//	
+//	//document.createElementNS('"http://www.w3.org/2000/svg"')
+//	var svgNs = 'http://www.w3.org/2000/svg';
+//	var svg = document.createElementNS(svgNs,'svg');
+//	
+//	svg.setAttribute('xmlns',svgNs);
+//	svg.setAttribute('height','100%');
+//	svg.setAttribute('width','100%');
+//	
+//	wrap.appendChild(svg);
+	var wrap = document.querySelector('.wrap');
+	var svgNs = 'http://www.w3.org/2000/svg';
+	
+	
+	function createTag(tag,objAttr) {
+		var tag = document.createElementNS(svgNs,tag);
+		for ( var attr in objAttr ) {
+			tag.setAttribute(attr,objAttr[attr]);
+		}
+		return tag;
+	}
+	
+//	var svg = createTag('svg',{'xmlns':svgNs,'width':'100%','height':'100%'});
+//	var g = createTag('g',{'style':'cursor:pointer'});
+//	var line1 = createTag('line',{'x1':'100','y1':'100','x2':'390','y2':'200','stroke':'#ccc'});
+//	var line2 = createTag('line',{'x1':'100','y1':'100','x2':'390','y2':'200','stroke':'transparent','stroke-width':'10'});
+//	var rect = createTag('rect',{'x':'235','y':'140','fill':'#999','width':'20','height':'20','rx':'3'});
+//	var text = createTag('text',{'x':'245','y':'158','fill':'white','font-size':'20','text-anchor':'middle'});
+//	text.innerHTML = '?';
+//	
+//	svg.appendChild(g);
+//	g.appendChild(line1);
+//	g.appendChild(line2);
+//	g.appendChild(rect);
+//	g.appendChild(text);
+//	
+//	wrap.appendChild(svg);
+	
+	var centerX = wrap.offsetWidth/2;
+	var centerY = wrap.offsetHeight/2;
+	
+	var circleNum = 10;
+	var angleNum = 360/circleNum;
+	var centerR = 150;
+	var arr = ['帅气','机智','温婉','明媚','可爱','漂亮','帅呱','高冷','低调','执着'];
+	var otherData = [];
+	for ( var i = 0; i < arr.length; i++ ) {
+		var y = Math.sin(i*36*Math.PI/180)*centerR + centerY;
+		var x = Math.cos(i*36*Math.PI/180)*centerR + centerX;
+		otherData.push({x:x,y:y,text:arr[i]});
+		console.log(x,y);
+	}
+	
+	var data = {
+		centerNode: {text:'王悦'},
+		otherNode: otherData
+	}
+	
+	addTag();
+	function addTag() {
+		var svg = createTag('svg',{'xmlns':svgNs,'width':'100%','height':'100%'});
+		
+		for ( var i = 0; i < data.otherNode.length; i++ ) {
+			addOtherTag(data.otherNode[i],svg);
+		}
+		
+		var g = createTag('g',{'style':'cursor:pointer'});
+		var circle = createTag('circle',{'cx':centerX,'cy':centerY,'r':'40','fill':'white','stroke':'red','strole-width':'2'})
+		var text = createTag('text',{'x':centerX,'y':centerY+12,'fill':'red','font-size':'30','text-anchor':'middle'});
+		text.innerHTML = data.centerNode.text;
+		
+		g.appendChild(circle);
+		g.appendChild(text);
+		svg.appendChild(g);
+		wrap.appendChild(svg);
+	}
+	function addOtherTag(oterAttr,svg) {
+		var g = createTag('g',{'style':'cursor:pointer'});
+		var line1 = createTag('line',{'x1':oterAttr.x,'y1':oterAttr.y,'x2':centerX,'y2':centerY,'stroke':'#ccc'});
+		var line2 = createTag('line',{'x1':oterAttr.x,'y1':oterAttr.y,'x2':centerX,'y2':centerY,'stroke':'transparent','stroke-width':'10'});
+		var rect = createTag('rect',{'x':(oterAttr.x+centerX)/2-10,'y':(oterAttr.y+centerY)/2-10,'fill':'white','width':'20','height':'20','rx':'3'});
+		var text = createTag('text',{'x':(oterAttr.x+centerX)/2,'y':(oterAttr.y+centerY)/2+8,'fill':'red','font-size':'20','text-anchor':'middle'});
+		text.innerHTML = '♥';
+	
+		svg.appendChild(g);
+		g.appendChild(line1);
+		g.appendChild(line2);
+		g.appendChild(rect);
+		g.appendChild(text);
+		
+		
+		var g = createTag('g',{'style':'cursor:pointer'}); 
+		var g = createTag('g',{'style':'cursor:pointer'});
+		var circle = createTag('circle',{'cx':oterAttr.x,'cy':oterAttr.y,'r':'30','fill':'white','stroke':'red','strole-width':'2'})
+		var text = createTag('text',{'x':oterAttr.x,'y':oterAttr.y+8,'fill':'red','font-size':'20','text-anchor':'middle'});
+		text.innerHTML = oterAttr.text;
+		
+		g.appendChild(circle);
+		g.appendChild(text);
+		svg.appendChild(g);
+	}
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+	<!--<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+		<circle cx="80" cy="80" r="50" fill="white" stroke="black" stroke-width="2"></circle>
+		<rect width="20" height="20" x="180" y="180" rx="2" fill="#ccc"></rect>
+		<line x1="80" y1="80" x2="300" y2="300" stroke="#ccc" stroke-width="2"></line>
+		<text x="190" y="198" font-size="20" text-anchor="middle" fill="white">?</text>-->
+		<!--<text x="200" y="218" font-weight="bold" font-size="40" text-anchor="middle">王悦</text>-->
+		<!--<image x="100" y="100" width="100" height="100" xlink:href="img/1.jpg"></image>
+	</svg>-->
+</div>
+</body>
+</html>
